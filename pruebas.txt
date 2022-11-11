@@ -1,0 +1,56 @@
+The number of processors is 12
+Im the clock
+Im the timer 1
+Im tid 17824
+Im the timer 2
+Im tid 17825
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17824 ha contado 100000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17824 ha contado 100000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17824 ha contado 100000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17824 ha contado 100000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17825 ha contado 25000 ciclos
+
+17824 ha contado 100000 ciclos
