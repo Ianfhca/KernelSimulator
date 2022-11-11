@@ -16,12 +16,12 @@ int max_process = 200;
 PCB * pcb_queue;
 pthread_t pth[12];
 
-PCB generate_process() {
+void generate_process() {
     if (num_process < 200) {
         PCB pcb;
         pcb.tid = num_process;
         pcb.status = 0;
-        pcb.quantum = 
+        pcb.quantum = 2;
         pcb_queue[max_process] = pcb;
         num_process++;
         max_process--;
