@@ -11,7 +11,6 @@ typedef struct {
     pid_t tid; // process id
     int status; // 0 = ready; 1 = waitting; 2 = blocked;
     double quantum; // process 
-    // PCB * next;
 } PCB;
 
 struct scheduler {
