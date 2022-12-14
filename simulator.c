@@ -16,16 +16,27 @@ int max_process = 200;
 PCB * pcb_queue;
 pthread_t pth[12];
 
+node *first = NULL;
+node *last = NULL;
+
 void generate_process() {
     if (num_process < 200) {
-        PCB pcb;
-        pcb.tid = num_process;
-        pcb.status = 0;
-        pcb.quantum = 2;
-        pcb_queue[max_process] = pcb;
+        node *newnode = malloc(sizeof(node));
+        newnode->this.tid = num_process;
+        newnode->this.status = 0;
+        newnode->this.live_time = rand() % 100 + 20;
+        newnode->this.quantum = 2;
+        newnode->next = NULL;
+        // PCB pcb;
+        // pcb.tid = num_process;
+        // pcb.status = 0;
+        // pcb.live_time = rand() % 100 + 20; // revisar random entre 20 y 100
+        // pcb.quantum = 2;
+        //pcb_queue[max_process] = pcb;
         num_process++;
-        max_process--;
-        printf("\nSe ha generado el proceso con id %d\n", pcb.tid);
+        //max_process--;
+        printf("EL IDENTIFICADOR DE LA COLA %d\n", newnode->this.tid);
+        //printf("\nSe ha generado el proceso con id %d\n", pcb.tid);
         fflush(stdout);
     }
  }
@@ -101,7 +112,6 @@ void generate_process() {
  }
 
 int main(int argc, char * argv[]) {
-
     num_processors = sysconf(_SC_NPROCESSORS_ONLN);
     printf("The number of processors is %ld\n", num_processors);
 
@@ -113,6 +123,7 @@ int main(int argc, char * argv[]) {
     args.count2 = 50000;
 
     pcb_queue = (PCB*) malloc(200 * sizeof(PCB));
+    srand(time(NULL));
 
     pthread_mutex_init(&mutex, NULL);
     pthread_cond_init(&cond1, NULL);

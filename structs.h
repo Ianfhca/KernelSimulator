@@ -10,13 +10,15 @@ void *malloc(size_t size);
 typedef struct {
     pid_t tid; // process id
     int status; // 0 = ready; 1 = waitting; 2 = blocked;
-    double quantum; // process 
-    // PCB * next;
+    int live_time; // 
+    double quantum; // process time spent in CPU
 } PCB;
 
-struct scheduler {
-    struct PCB * runqueue;
+struct node_t {
+    PCB this;
+    struct node_t *next;
 };
+typedef struct node_t node;
 
 typedef struct {
     int cycles1;
@@ -25,19 +27,3 @@ typedef struct {
     int count2;
     PCB pcb;
 } args_t;
-
-// struct cfs_rq {
-
-// };
-
-// struct rt_rq {
-
-// };
-
-// struct run_queue {
-//     unsigned int np_running;
-//     struct cfs_rq cfs;
-//     struct rt_rq rt;
-//     struct PCB *curr;
-//     int cpu;
-// };
