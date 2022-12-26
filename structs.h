@@ -4,6 +4,10 @@
 #include <pthread.h>
 #include <errno.h>
 
+#define MAX_TIMERS 2
+#define NUM_THREADS MAX_TIMERS+1
+#define MAX_PROCESS 100
+
 pid_t gettid(void);
 void *malloc(size_t size);
 
