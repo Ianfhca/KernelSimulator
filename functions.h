@@ -2,4 +2,4 @@
 
 void generate_process();
 void * process(void *pcb);
-void execute_process(long num_processors);
+void execute_process(long *num_processors);
