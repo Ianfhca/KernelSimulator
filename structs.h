@@ -6,7 +6,7 @@
 
 #define MAX_TIMERS 2
 #define NUM_THREADS MAX_TIMERS+1
-#define MAX_PROCESS 100
+#define MAX_PROCESS 50
 
 pid_t gettid(void);
 void *malloc(size_t size);
@@ -30,5 +30,6 @@ typedef struct {
     int cycles2;
     int count1;
     int count2;
-    PCB pcb;
+    int done;
+    node queue;
 } args_t;

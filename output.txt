@@ -1,126 +1,94 @@
 The number of processors is 12
-Im the clock
-Im the timer 1
-I'm tid 18910
-I'm the timer 2
-Im tid 18911
-EL IDENTIFICADOR DE LA COLA 0
-EL IDENTIFICADOR DE LA COLA 1
-EL IDENTIFICADOR DE LA COLA 2
-EL IDENTIFICADOR DE LA COLA 3
- - Executing process 0
-EL IDENTIFICADOR DE LA COLA 4
-EL IDENTIFICADOR DE LA COLA 5
-EL IDENTIFICADOR DE LA COLA 6
-EL IDENTIFICADOR DE LA COLA 7
-EL IDENTIFICADOR DE LA COLA 8
-EL IDENTIFICADOR DE LA COLA 9
- - Executing process 1
-EL IDENTIFICADOR DE LA COLA 10
-EL IDENTIFICADOR DE LA COLA 11
-EL IDENTIFICADOR DE LA COLA 12
-EL IDENTIFICADOR DE LA COLA 13
-EL IDENTIFICADOR DE LA COLA 14
- - Executing process 2
-EL IDENTIFICADOR DE LA COLA 15
-EL IDENTIFICADOR DE LA COLA 16
-EL IDENTIFICADOR DE LA COLA 17
-EL IDENTIFICADOR DE LA COLA 18
- - Executing process 3
-EL IDENTIFICADOR DE LA COLA 19
-EL IDENTIFICADOR DE LA COLA 20
-EL IDENTIFICADOR DE LA COLA 21
-EL IDENTIFICADOR DE LA COLA 22
-EL IDENTIFICADOR DE LA COLA 23
-EL IDENTIFICADOR DE LA COLA 24
- - Executing process 4
-EL IDENTIFICADOR DE LA COLA 25
-EL IDENTIFICADOR DE LA COLA 26
-EL IDENTIFICADOR DE LA COLA 27
-EL IDENTIFICADOR DE LA COLA 28
- - Executing process 5
-EL IDENTIFICADOR DE LA COLA 29
-EL IDENTIFICADOR DE LA COLA 30
-EL IDENTIFICADOR DE LA COLA 31
-EL IDENTIFICADOR DE LA COLA 32
-EL IDENTIFICADOR DE LA COLA 33
- - Executing process 6
-EL IDENTIFICADOR DE LA COLA 34
-EL IDENTIFICADOR DE LA COLA 35
-EL IDENTIFICADOR DE LA COLA 36
-EL IDENTIFICADOR DE LA COLA 37
-EL IDENTIFICADOR DE LA COLA 38
-EL IDENTIFICADOR DE LA COLA 39
- - Executing process 7
-EL IDENTIFICADOR DE LA COLA 40
-EL IDENTIFICADOR DE LA COLA 41
-EL IDENTIFICADOR DE LA COLA 42
-EL IDENTIFICADOR DE LA COLA 43
-EL IDENTIFICADOR DE LA COLA 44
- - Executing process 8
-EL IDENTIFICADOR DE LA COLA 45
-EL IDENTIFICADOR DE LA COLA 46
-EL IDENTIFICADOR DE LA COLA 47
-EL IDENTIFICADOR DE LA COLA 48
-EL IDENTIFICADOR DE LA COLA 49
- - Executing process 9
-EL IDENTIFICADOR DE LA COLA 50
-EL IDENTIFICADOR DE LA COLA 51
-EL IDENTIFICADOR DE LA COLA 52
-EL IDENTIFICADOR DE LA COLA 53
-EL IDENTIFICADOR DE LA COLA 54
- - Executing process 10
-EL IDENTIFICADOR DE LA COLA 55
-EL IDENTIFICADOR DE LA COLA 56
-EL IDENTIFICADOR DE LA COLA 57
-EL IDENTIFICADOR DE LA COLA 58
-EL IDENTIFICADOR DE LA COLA 59
- - Executing process 11
-EL IDENTIFICADOR DE LA COLA 60
-EL IDENTIFICADOR DE LA COLA 61
-EL IDENTIFICADOR DE LA COLA 62
-EL IDENTIFICADOR DE LA COLA 63
- - Executing process 12
-EL IDENTIFICADOR DE LA COLA 64
-EL IDENTIFICADOR DE LA COLA 65
-EL IDENTIFICADOR DE LA COLA 66
-EL IDENTIFICADOR DE LA COLA 67
-EL IDENTIFICADOR DE LA COLA 68
- - Executing process 13
-EL IDENTIFICADOR DE LA COLA 69
-EL IDENTIFICADOR DE LA COLA 70
-EL IDENTIFICADOR DE LA COLA 71
-EL IDENTIFICADOR DE LA COLA 72
-EL IDENTIFICADOR DE LA COLA 73
- - Executing process 14
-EL IDENTIFICADOR DE LA COLA 74
-EL IDENTIFICADOR DE LA COLA 75
-EL IDENTIFICADOR DE LA COLA 76
-EL IDENTIFICADOR DE LA COLA 77
-EL IDENTIFICADOR DE LA COLA 78
-EL IDENTIFICADOR DE LA COLA 79
- - Executing process 15
-EL IDENTIFICADOR DE LA COLA 80
-EL IDENTIFICADOR DE LA COLA 81
-EL IDENTIFICADOR DE LA COLA 82
-EL IDENTIFICADOR DE LA COLA 83
-EL IDENTIFICADOR DE LA COLA 84
- - Executing process 16
-EL IDENTIFICADOR DE LA COLA 85
-EL IDENTIFICADOR DE LA COLA 86
-EL IDENTIFICADOR DE LA COLA 87
-EL IDENTIFICADOR DE LA COLA 88
- - Executing process 17
-EL IDENTIFICADOR DE LA COLA 89
-EL IDENTIFICADOR DE LA COLA 90
-EL IDENTIFICADOR DE LA COLA 91
-EL IDENTIFICADOR DE LA COLA 92
-EL IDENTIFICADOR DE LA COLA 93
-EL IDENTIFICADOR DE LA COLA 94
- - Executing process 18
-EL IDENTIFICADOR DE LA COLA 95
-EL IDENTIFICADOR DE LA COLA 96
-EL IDENTIFICADOR DE LA COLA 97
-EL IDENTIFICADOR DE LA COLA 98
- - Executing process 19
-EL IDENTIFICADOR DE LA COLA 99
+Im the clock with tid 7362
+I'm the timer 2 with tid 7363
+I'm the timer 1 with tid 7364
+The queue id is 0
+The queue id is 1
+The queue id is 2
+The queue id is 3
+ - Executing process 0...
+The queue id is 4
+The queue id is 5
+The queue id is 6
+The queue id is 7
+ - Executing process 1...
+The queue id is 8
+The queue id is 9
+The queue id is 10
+The queue id is 11
+ - Executing process 2...
+The queue id is 12
+The queue id is 13
+The queue id is 14
+The queue id is 15
+ - Executing process 3...
+The queue id is 16
+The queue id is 17
+The queue id is 18
+The queue id is 19
+ - Executing process 0...
+The queue id is 20
+The queue id is 21
+The queue id is 22
+The queue id is 23
+ - Executing process 4...
+The queue id is 24
+The queue id is 25
+The queue id is 26
+The queue id is 27
+ - Executing process 5...
+The queue id is 28
+The queue id is 29
+The queue id is 30
+The queue id is 31
+ - Executing process 6...
+The queue id is 32
+The queue id is 33
+The queue id is 34
+The queue id is 35
+ - Executing process 7...
+The queue id is 36
+The queue id is 37
+The queue id is 38
+The queue id is 39
+ - Executing process 1...
+The queue id is 40
+The queue id is 41
+The queue id is 42
+The queue id is 43
+ - Executing process 8...
+The queue id is 44
+The queue id is 45
+The queue id is 46
+The queue id is 47
+ - Executing process 9...
+The queue id is 48
+The queue id is 49
+ - Executing process 10...
+ - Executing process 11...
+ - Executing process 12...
+ - Executing process 13...
+ - Executing process 14...
+ - Executing process 15...
+ - Executing process 16...
+ - Executing process 17...
+ - Executing process 18...
+ - Executing process 19...
+ - Executing process 20...
+ - Executing process 21...
+ - Executing process 22...
+ - Executing process 23...
+ - Executing process 4...
+ - Executing process 24...
+ - Executing process 25...
+ - Executing process 26...
+ - Executing process 27...
+ - Executing process 28...
+ - Executing process 29...
+ - Executing process 30...
+ - Executing process 31...
+ - Executing process 32...
+ - Executing process 33...
+ - Executing process 34...
+ - Executing process 35...
+ - Executing process 7...

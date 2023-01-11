@@ -9,32 +9,29 @@ pthread_t pth[12];
 node *first = NULL;
 node *last = NULL;
 
-void generate_process() {
+node * generate_process() {
     if (num_process < MAX_PROCESS) {
         node *newnode = malloc(sizeof(node));
         newnode->this.pid = num_process;
         newnode->this.status = 0;
         newnode->this.live_time = (rand() % 80) + 20; // random value between 20 and 100
-        newnode->this.quantum = 2;
+        newnode->this.quantum = 50;
         newnode->next = NULL;
-        if (first == NULL) {
-            first = newnode;
-            last = newnode;
-        } else {
-            last->next = newnode;
-            last = newnode;
-        }
+        add_process(newnode);
+        // if (first == NULL) {
+        //     first = newnode;
+        //     last = newnode;
+        // } else {
+        //     last->next = newnode;
+        //     last = newnode;
+        // }
         num_process++;
         // printf("\nSe ha generado el proceso con id %d\n", pcb.pid);
         printf("The queue id is %d\n", newnode->this.pid);
         fflush(stdout);
+        return first;
     }
-}
-
-void *process(void *pcb) {
-    // nanosleep()
-    PCB *current = pcb;
-    printf(" - Executing process %d...\n", current->pid);
+    return NULL;
 }
 
 void execute_process(long *num_processors) {
@@ -48,21 +45,39 @@ void execute_process(long *num_processors) {
             } else {
                 first = first->next;
             }
-            // printf("%d\n", *num_processors);
-            // (*num_processors)--;
-            // (*num_processors) = (*num_processors) - 1;
-            if (pthread_create(&pth[(*num_processors) - 1], NULL, &process, &pcb) != 0)
+            if (pthread_create(&pth[(*num_processors) - 1], NULL, &process, current) != 0)
                 perror("Failed to create thread\n");
             (*num_processors)--;
-            
             if (pthread_join(pth[(*num_processors)], NULL) != 0) perror("Failed to join thread\n");
-            if (pcb.live_time > 0) {
+            (*num_processors)++;
+            if (current->this.live_time > 0) {
                 // Volver a meterlo en la cola
+                add_process(current);
             } else {
                 free(current);
             }
         }
         // mirar si el tiempo de vida del proceso acabo y si no volver a meterlo en la cola
         // Cuando esto termine hay que incrementar el num_processors
+    }
+}
+
+void *process(void *current) {
+    // nanosleep()
+    node *new_process = current;
+    // printf("LIVE_TIME - PRE %d\n", new_process->this.live_time);
+    new_process->this.live_time = new_process->this.live_time - new_process->this.quantum; // No se guarda el cambio en la variable live_time
+    printf(" - Executing process %d...\n", new_process->this.pid);
+    // printf("LIVE_TIME - POST %d\n", new_process->this.live_time);
+    fflush(stdout);
+}
+
+void add_process (node *newnode) {
+    if (first == NULL) {
+        first = newnode;
+        last = newnode;
+    } else {
+        last->next = newnode;
+        last = newnode;
     }
 }
