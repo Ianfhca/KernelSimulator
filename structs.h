@@ -14,8 +14,8 @@ void *malloc(size_t size);
 typedef struct {
     int pid; // process id
     int status; // 0 = ready; 1 = waitting; 2 = blocked;
-    int live_time; // 
-    double quantum; // process time spent in CPU
+    int live_time; // process live time
+    int quantum; // process time spent in CPU
     int thread;
 } PCB;
 
@@ -24,6 +24,11 @@ struct node_t {
     struct node_t *next;
 };
 typedef struct node_t node;
+
+typedef struct {
+    node *first;
+    node *last;
+} QUEUE;
 
 typedef struct {
     int cycles1;

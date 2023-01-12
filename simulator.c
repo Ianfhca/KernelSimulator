@@ -1,13 +1,18 @@
 #include "./functions.h"
 
 long num_processors;
+pthread_t *pth;
+unsigned long num_process;
 
 pthread_mutex_t mutex;
 pthread_cond_t cond1;
 pthread_cond_t cond2;
 
 node *current = NULL;
-//node *last = NULL;
+node *newprocess = NULL;
+
+// node *first = NULL;
+// node *last = NULL;
 
 /**
  * Funtion that symulates CPU's clock frecuency
@@ -39,10 +44,15 @@ void * timer1(void *arg) {
         args->done++;
         args->cycles2++;
         if (args->cycles2 == args->count1) {
-            // printf("\n%d ha contado %d ciclos\n", gettid(), args->cycles2);
-            // fflush(stdout);
             args->cycles2 = 0;
-            current = generate_process();
+            // while (1) {
+                if (num_process < MAX_PROCESS) {
+                    newprocess = generate_process(num_process);
+                    add_process(newprocess);
+                    num_process++;
+                    // break;
+                }
+            // }
         }
         pthread_cond_signal(&cond1);
         pthread_cond_wait(&cond2, &mutex);
@@ -61,10 +71,29 @@ void * timer2(void *arg) {
         args->done++;
         args->cycles1++;
         if (args->cycles1 == args->count2) {
-            //printf("\n%d ha contado %d ciclos\n", gettid(), args->cycles1);
-            //fflush(stdout);
             args->cycles1 = 0;
-            execute_process(&num_processors);
+            // while (1) {
+                if (num_processors >= 0) { // revisar que sea > o >=
+                    current = get_first();
+                    // printf("*LIVE_TIME - PRE %d\n", current->this.live_time);
+                    if (pthread_create(&pth[num_processors-1], NULL, &execute_process, current) != 0)
+                        perror("Failed to create thread\n");
+                    num_processors--;
+                    if (pthread_join(pth[num_processors], NULL) != 0) // Falta añadir el contador de ciclos
+                        perror("Failed to join thread\n");
+                    // printf("*LIVE_TIME - POST %d\n", current->this.live_time);
+                    if (current->this.live_time > 0) {
+                        // Volver a meterlo en la cola
+                        add_process(current);
+                    } else {
+                        free(current);
+                        num_process++;
+                    }
+                    num_processors++;
+                    // break;
+                }
+            // }
+            // execute_process(&num_processors);
         }
         pthread_cond_signal(&cond1);
         pthread_cond_wait(&cond2, &mutex);
@@ -73,7 +102,9 @@ void * timer2(void *arg) {
 
 int main(int argc, char *argv[]) {
     num_processors = sysconf(_SC_NPROCESSORS_ONLN);
+    pth = (pthread_t *)malloc(num_processors * sizeof(pthread_t));
     printf("The number of processors is %ld\n", num_processors);
+    num_process = 0;
 
     pthread_t th[NUM_THREADS];
     args_t args;
@@ -82,6 +113,9 @@ int main(int argc, char *argv[]) {
     args.count1 = 9999;
     args.count2 = 40000;
     args.done = 0;
+
+    current = (node *)malloc(sizeof(node));
+    newprocess = (node *)malloc(sizeof(node));
 
     srand(time(NULL));
 
