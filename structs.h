@@ -6,7 +6,7 @@
 
 #define MAX_TIMERS 2
 #define NUM_THREADS MAX_TIMERS+1
-#define MAX_PROCESS 50
+#define MAX_PROCESS 10
 
 pid_t gettid(void);
 void *malloc(size_t size);
@@ -14,7 +14,7 @@ void *malloc(size_t size);
 typedef struct {
     int pid; // process id
     int status; // 0 = ready; 1 = waitting; 2 = blocked;
-    int live_time; // process live time
+    signed int live_time; // process live time
     int quantum; // process time spent in CPU
     int thread;
 } PCB;
@@ -25,10 +25,10 @@ struct node_t {
 };
 typedef struct node_t node;
 
-typedef struct {
-    node *first;
-    node *last;
-} QUEUE;
+// typedef struct {
+//     node *first;
+//     node *last;
+// } QUEUE;
 
 typedef struct {
     int cycles1;
@@ -36,5 +36,7 @@ typedef struct {
     int count1;
     int count2;
     int done;
-    node queue;
+    int finished;
+    int num_timers;
+    // node queue;
 } args_t;
