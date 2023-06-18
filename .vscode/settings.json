@@ -1,6 +1,10 @@
 {
     "files.associations": {
         "pthread.h": "c",
-        "functions.h": "c"
+        "functions.h": "c",
+        "unistd.h": "c",
+        "stdlib.h": "c",
+        "structs.h": "c",
+        "process_generator.h": "c"
     }
 }
