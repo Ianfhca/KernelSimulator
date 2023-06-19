@@ -4,7 +4,8 @@ void *timer2(void *arg) {
     pthread_mutex_lock(&mutex);
     args_t *args = arg;
     int pulses = 0;
-    printf("I'm the timer 1 with tid %d\n", gettid());
+    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+    // printf("I'm the timer 1 with tid %d\n", gettid());
     while (1) {
         args->done++;
         pulses++;
@@ -33,7 +34,9 @@ void *timer2(void *arg) {
             //         printf("The simulation is has finished\n");
             //         exit(0);
             //     }
+            pthread_testcancel();
             printf("Timer 2 has interrupt\n");
+            fflush(stdout);
             // }
         }
         pthread_cond_signal(&cond1);

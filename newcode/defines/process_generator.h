@@ -4,6 +4,6 @@
 #include "globals.h"
 
 void *timer1(void *args);
-void *gen_process();
+void generate_process(pcb_t *pcb, int num_process);
 
 #endif
