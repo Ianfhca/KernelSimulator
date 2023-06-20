@@ -1,10 +1,9 @@
 #include "../defines/scheduler.h"
 
-void *timer2(void *arg) {
+void *timer2(void *arguments) {
     pthread_mutex_lock(&mutex);
-    args_t *args = arg;
+    args_t *args = arguments;
     int pulses = 0;
-    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
     // printf("I'm the timer 1 with tid %d\n", gettid());
     while (1) {
         args->done++;
@@ -34,7 +33,6 @@ void *timer2(void *arg) {
             //         printf("The simulation is has finished\n");
             //         exit(0);
             //     }
-            pthread_testcancel();
             printf("Timer 2 has interrupt\n");
             fflush(stdout);
             // }

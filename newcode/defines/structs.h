@@ -1,13 +1,7 @@
 #ifndef ST
 #define ST
 
-typedef struct {
-    int freq_pgen[2];
-    int freq_schl;
-    int done;
-    int finished;
-    // int num_timers;
-} args_t;
+
 
 typedef struct {
     int pid;
@@ -42,5 +36,14 @@ typedef struct {
 } machine_t;
 
 // -- MACHINE --
+
+typedef struct {
+    int freq_pgen[2];
+    int freq_schl;
+    int done;
+    int finished;
+    machine_t machine;
+    // int num_timers;
+} args_t;
 
 #endif

@@ -13,9 +13,8 @@ int num_threads;
  * Funtion that symulates CPU's clock frecuency
  *
  */
-void* cpu_clock(void* arg) {
-    args_t* args = arg;
-    pthread_setcanceltype(PTHREAD_CANCEL_ASYNCHRONOUS, NULL);
+void* cpu_clock(void* arguments) {
+    args_t* args = arguments;
     // printf("Im the clock with tid %d\n", gettid());
     while (1) {
         pthread_mutex_lock(&mutex);
@@ -23,7 +22,6 @@ void* cpu_clock(void* arg) {
             pthread_cond_wait(&cond1, &mutex);  // Unlocks the mutex, waits for signal and it locks again
         }
         args->done = 0;
-        pthread_testcancel();
         pthread_cond_broadcast(&cond2);
         pthread_mutex_unlock(&mutex);
     }
@@ -35,7 +33,7 @@ int main(void) {
     num_cpus = 2;
     num_cores = 2;
     num_threads = 8;
-    machine_t machine;
+    // machine_t machine;
 
     args_t args;
     args.freq_pgen[0] = 1000;
@@ -77,8 +75,8 @@ int main(void) {
                 num_cpus = 2;
                 num_cores = 2;
                 num_threads = 8;
-                args.freq_pgen[0] = 1000;
-                args.freq_pgen[1] = 1000;
+                args.freq_pgen[0] = 999;
+                args.freq_pgen[1] = 999;
                 args.freq_schl = 5000;
                 printf("Default values has been set:\n");
                 printf("CPUs: %d, Cores: %d, Threads: %d\n", num_cpus, num_cores, num_threads);
@@ -104,11 +102,11 @@ int main(void) {
         }
     }
 
-    machine.num_cpus = num_cpus;
-    machine.cpus = (CPU*)malloc(machine.num_cpus * sizeof(CPU));  // CPUs
+    args.machine.num_cpus = num_cpus;
+    args.machine.cpus = (CPU*)malloc(args.machine.num_cpus * sizeof(CPU));  // CPUs
     printf("\n");
-    for (int cpu_id = 0; cpu_id < machine.num_cpus; cpu_id++) {
-        CPU* cpu = &(machine.cpus[cpu_id]);
+    for (int cpu_id = 0; cpu_id < args.machine.num_cpus; cpu_id++) {
+        CPU* cpu = &(args.machine.cpus[cpu_id]);
         cpu->id = cpu_id;
         cpu->num_cores = num_cores;
         printf("CPU %d:\n", cpu->id);
