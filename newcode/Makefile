@@ -1,9 +1,9 @@
-CC = gcc
-CFLAGS = -Wall -Wextra -pthread
-
 SRCDIR = src
 INCLUDEDIR = defines
 OBJDIR = obj
+
+CC = gcc
+CFLAGS = -Wall -Wextra -I$(INCLUDEDIR) -pthread -ansi
 
 SRC = $(wildcard $(SRCDIR)/*.c)
 OBJ = $(patsubst $(SRCDIR)/%.c, $(OBJDIR)/%.o, $(SRC))

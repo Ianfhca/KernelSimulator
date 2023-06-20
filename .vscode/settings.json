@@ -5,6 +5,8 @@
         "unistd.h": "c",
         "stdlib.h": "c",
         "structs.h": "c",
-        "process_generator.h": "c"
+        "process_generator.h": "c",
+        "globals.h": "c",
+        "queue.h": "c"
     }
 }
