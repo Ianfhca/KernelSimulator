@@ -1,4 +1,4 @@
-#include "../defines/scheduler.h"
+#include "scheduler.h"
 
 void *timer2(void *arguments) {
     pthread_mutex_lock(&mutex);

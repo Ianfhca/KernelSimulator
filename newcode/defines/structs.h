@@ -2,9 +2,17 @@
 #define ST
 
 /* -- QUEUE -- */
+enum State {
+    READY,
+    EXECUTING,
+    BLOCKED,
+    FINISHED,
+    NULL_S
+};
+
 typedef struct {
     int pid;
-    int state;  /* 0 = ready; 1 = executing; 2 = blocked; 3 = finished; */
+    enum State state;
     int live_time;
     int priority;
 } pcb_t;
@@ -26,23 +34,24 @@ typedef struct {
     int id;
     int core_id;
     int cpu_id;
-} Thread;
+    pcb_t pcb;
+} thread_t;
 
 typedef struct {
     int id;
     int num_threads;
-    Thread* threads;
+    thread_t* threads;
     process_queue queue;
-} Core;
+} core_t;
 
 typedef struct {
     int id;
     int num_cores;
-    Core* cores;
-} CPU;
+    core_t* cores;
+} cpu_t;
 
 typedef struct {
-    CPU* cpus;
+    cpu_t* cpus;
     int num_cpus;
 } machine_t;
 /* -- MACHINE -- */

@@ -2,17 +2,21 @@
 #define GLB
 
 #include <errno.h>
+#include <limits.h>
 #include <pthread.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <signal.h>
 
 #include "structs.h"
 
 #define NUM_TIMERS 2
 #define NUM_THREADS 3
 #define MAX_PROCESS 5000
+#define DEF_CPUS 2
+#define DEF_CORES 2
+#define DEF_THREADS 8
 
 pid_t gettid(void);
 
