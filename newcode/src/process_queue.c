@@ -9,9 +9,9 @@ int is_empty(process_queue* queue) {
     return queue->first == NULL;
 }
 
-void enqueue(process_queue* queue, pcb_t *pcb) {
+void enqueue(process_queue* queue, pcb_t pcb) {
     node_t* node = (node_t*)malloc(sizeof(node_t));
-    node->pcb = *pcb;
+    node->pcb = pcb;
     node->next = NULL;
 
     if (is_empty(queue)) {

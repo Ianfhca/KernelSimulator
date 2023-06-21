@@ -35,7 +35,7 @@ void init_machine(args_t* args) {
             core->id = core_id;
             core->num_threads = num_threads;
             inic_queue(&core->queue);
-            printf(" -C%d: ", core->id);
+            printf(" -C%d -> ", core->id);
 
             core->threads = (thread_t*)malloc(core->num_threads * sizeof(thread_t)); /*Threads per core*/
 
