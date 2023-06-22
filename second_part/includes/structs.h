@@ -1,6 +1,20 @@
 #ifndef ST
 #define ST
 
+/* -- MEMORY -- */
+typedef struct {
+    int *code;
+    int *data;
+    int *pgb; 
+} mm_t;
+
+typedef struct {
+    int *code;
+    int *data;
+    int *pgb; 
+} physical_memory_t;
+/* -- MEMORY -- */
+
 /* -- QUEUE -- */
 enum Status {
     READY,
@@ -17,6 +31,7 @@ typedef struct {
     int quantum;
     int live_time;
     int priority;
+    mm_t mm; 
 } pcb_t;
 
 typedef struct node_t {
