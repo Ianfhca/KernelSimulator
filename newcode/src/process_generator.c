@@ -41,7 +41,7 @@ void generate_process(machine_t *machine, int frequence) {
             pcb = create_pcb(pid, frequence);
             enqueue(&machine->cpus[cpu_id].cores[core_id].queue, pcb);
             machine->cpus[cpu_id].cores[core_id].num_proc_queue++;
-            printf("Generating process %d - (TTL %d, Q %d): CPU %d: C%d\r", pid, pcb.live_time, pcb.load_quantum,cpu_id, core_id);
+            printf("Process Generated: %d -> (CPU %d - CORE %d) | TTL %d, Quantum %d\n", pid, cpu_id, core_id, pcb.live_time, pcb.load_quantum);
             fflush(stdout);
         } else {
             printf("Warning: All core queues are full\n");

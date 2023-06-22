@@ -62,13 +62,15 @@ int init_config(args_t* args) {
     num_cores = DEF_CORES;
     num_threads = DEF_THREADS;
 
-    printf("+-------------- KERNEL SIMULATOR --------------+\n");
-    printf("| C = Configure simulator                      |\n");
-    printf("| D = Launch default simulation                |\n");
-    printf("| R = Run simulation                           |\n");
-    printf("| S = Stop simulation                          |\n");
-    printf("| E = Exit                                     |\n");
-    printf("+----------------------------------------------+\n");
+    printf("+-----------{ KERNEL SIMULATOR }-----------+\n");
+    printf("|                                          |\n");
+    printf("|     * C (Configure simulator)            |\n");
+    printf("|     * D (Launch default simulation)      |\n");
+    printf("|     * R (Run simulation)                 |\n");
+    printf("|     * S (Stop simulation)                |\n");
+    printf("|     * E (Exit)                           |\n");
+    printf("|                                          |\n");
+    printf("+------------------->  <-------------------+\n");
 
     while (input != 'r' && input != 'R') {
         scanf(" %c", &input);

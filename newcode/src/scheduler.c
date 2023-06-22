@@ -13,7 +13,9 @@ void dispatcher(machine_t *machine, pcb_t pcb, int cpu_id, int core_id, int thre
                     if (pcb_aux.status == READY) {
                         pcb_aux.status = EXECUTING;
                         machine->cpus[cpu_id].cores[core_id].threads[thread_id].pcb = pcb_aux;
-                        printf("--*EXECUTING %d* -> CPU %d: C%d - T%d\n", pcb_aux.pid, cpu_id, core_id, thread_id);
+                        printf(":\033[1;34m");
+                        printf("  (CPU %d - CORE %d - THREAD %d) ->  Executing process %d  ", cpu_id, core_id, thread_id, pcb_aux.pid);
+                        printf("\033[0m :\n");
                         fflush(stdout);
                     } else {
                         break;
@@ -28,14 +30,18 @@ void dispatcher(machine_t *machine, pcb_t pcb, int cpu_id, int core_id, int thre
                 pcb_aux.status = READY;
                 enqueue(&machine->cpus[cpu_id].cores[core_id].queue, pcb_aux);
                 machine->cpus[cpu_id].cores[core_id].threads[thread_id].pcb.status = NULL_S;
-                printf("--(ENQUEUED %d) -> CPU %d: C%d - T%d\n", pcb_aux.pid, cpu_id, core_id, thread_id);
+                printf(":\033[1;32m");
+                printf("  (CPU %d - CORE %d - THREAD %d) ->  Enqueued process %d   ", cpu_id, core_id, thread_id, pcb_aux.pid);
+                printf("\033[0m :\n");
                 fflush(stdout);
             } else {
                 pcb_aux = machine->cpus[cpu_id].cores[core_id].threads[thread_id].pcb;
                 machine->cpus[cpu_id].cores[core_id].threads[thread_id].pcb.status = FINISHED;
                 machine->cpus[cpu_id].cores[core_id].num_proc_queue--;
                 process_map[pcb.pid] = 0; /*Free pid*/
-                printf("--FINISHED %d -> CPU %d: C%d - T%d\n", pcb_aux.pid, cpu_id, core_id, thread_id);
+                printf(":\033[1;31m"); 
+                printf("  (CPU %d - CORE %d - THREAD %d) -> Finished process %d   ", cpu_id, core_id, thread_id, pcb_aux.pid);
+                printf("\033[0m :\n");
                 fflush(stdout);
             }
             break;
@@ -55,7 +61,9 @@ void scheduler(machine_t *machine) {
     int cpu_id, core_id, thread_id;
     pcb_t pcb;
 
-    printf("-Scheduling time:\n");
+    printf("+---------------------------------------------------------+\n");
+    printf("|                        SCHEDULER                        |\n");
+    printf("+---------------------------------------------------------+\n");
     fflush(stdout);
 
     for (cpu_id = 0; cpu_id < machine->num_cpus; cpu_id++) {
@@ -70,6 +78,8 @@ void scheduler(machine_t *machine) {
             dispatcher(machine, pcb, cpu_id, core_id, -1); /*Introduce queue processes to CPU*/ 
         }
     }
+    printf("+---------------------------------------------------------+\n\n");
+    fflush(stdout);
 }
 
 /**
