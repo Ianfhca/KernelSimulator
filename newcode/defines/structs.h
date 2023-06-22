@@ -2,7 +2,7 @@
 #define ST
 
 /* -- QUEUE -- */
-enum State {
+enum Status {
     READY,
     EXECUTING,
     BLOCKED,
@@ -12,7 +12,9 @@ enum State {
 
 typedef struct {
     int pid;
-    enum State state;
+    enum Status status;
+    int load_quantum;
+    int quantum;
     int live_time;
     int priority;
 } pcb_t;
@@ -42,6 +44,7 @@ typedef struct {
     int num_threads;
     thread_t* threads;
     process_queue queue;
+    int num_proc_queue;
 } core_t;
 
 typedef struct {

@@ -3,8 +3,8 @@
 
 #include "globals.h"
 
+pcb_t create_pcb(int pid, int frequence);
+void generate_process(machine_t *machine, int frequence);
 void *timer1(void *args);
-void generate_process(machine_t *machine, int pid);
-pcb_t create_pcb(int pid);
 
 #endif

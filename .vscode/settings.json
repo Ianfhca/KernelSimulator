@@ -9,6 +9,7 @@
         "globals.h": "c",
         "queue.h": "c",
         "process_queue.h": "c",
-        "init.h": "c"
+        "init.h": "c",
+        "scheduler.h": "c"
     }
 }

@@ -2,35 +2,53 @@
 
 #include "process_queue.h"
 
-pcb_t create_pcb(int pid) {
+pcb_t create_pcb(int pid, int frequence) {
     pcb_t pcb;
     pcb.pid = pid;
-    pcb.state = READY;
-    pcb.live_time = (rand() % 80) + 20; /*random value between 20 and 100*/
-    pcb.priority = (rand() % 100);      /*random value between 0 and 100*/
+    pcb.status = READY;
+    pcb.load_quantum = (rand() % (frequence * 4)) + (frequence / 3);  /*random value between (frequence / 3) and (frequence * 6)*/
+    pcb.quantum = pcb.load_quantum;                                   /*random value between (frequence / 3) and (frequence * 6)*/
+    pcb.live_time = (rand() % (pcb.quantum * 4)) + (pcb.quantum); /*random value between (pcb.quantum) and (pcb.quantum * 5)*/
+    pcb.priority = (rand() % 100);                                    /*random value between 0 and 100*/
     return pcb;
 }
 
-void generate_process(machine_t *machine, int pid) {
-    int i, j;
-    int size, min = INT_MAX, cpu_id = -1, core_id = -1;
+void generate_process(machine_t *machine, int frequence) {
+    int i, j, size;
+    int pid = 0, min = INT_MAX, cpu_id = -1, core_id = -1;
+    pcb_t pcb;
 
-    for (i = 0; i < machine->num_cpus; i++) {
-        for (j = 0; j < machine->cpus[i].num_cores; j++) {
-            size = queue_size(&machine->cpus[i].cores[j].queue);
-            if (size < MAX_PROCESS_QUEUE && size < min) {
-                min = size;
-                cpu_id = i;
-                core_id = j;
+    /*Select free pid*/
+    while (process_map[pid] != 0 && pid < MAX_PROCESS) {
+        pid++;
+    }
+    if (pid < MAX_PROCESS) {
+        process_map[pid] = 1;
+
+        /*Enqueue process in the emptiest core queue*/
+        for (i = 0; i < machine->num_cpus; i++) {
+            for (j = 0; j < machine->cpus[i].num_cores; j++) {
+                /*size = queue_size(&machine->cpus[i].cores[j].queue);*/
+                size = machine->cpus[i].cores[j].num_proc_queue;
+                if (size < MAX_PROCESS_QUEUE && size < min) {
+                    min = size;
+                    cpu_id = i;
+                    core_id = j;
+                }
             }
         }
-    }
-    if (core_id != -1) {
-        enqueue(&machine->cpus[cpu_id].cores[core_id].queue, create_pcb(pid));
-        printf("Generating process %d: CPU %d: C%d\n", pid, cpu_id, core_id);
-        fflush(stdout);
+        if (core_id != -1) {
+            pcb = create_pcb(pid, frequence);
+            enqueue(&machine->cpus[cpu_id].cores[core_id].queue, pcb);
+            machine->cpus[cpu_id].cores[core_id].num_proc_queue++;
+            printf("Generating process %d - (TTL %d, Q %d): CPU %d: C%d\r", pid, pcb.live_time, pcb.load_quantum,cpu_id, core_id);
+            fflush(stdout);
+        } else {
+            printf("Warning: All core queues are full\n");
+            fflush(stdout);
+        }
     } else {
-        printf("Warning: All core queues are full\n");
+        printf("Maximum number of process\n");
         fflush(stdout);
     }
 }
@@ -38,13 +56,13 @@ void generate_process(machine_t *machine, int pid) {
 /**
  * This function counts clock pulses and generates a processe when pulses reach established frecuence.
  * Parameters:
- *  - *arg: arg_t type struct
+ *  - *arguments: arg_t type struct
  * Return:
  */
 void *timer1(void *arguments) {
     pthread_mutex_lock(&mutex);
     args_t *args = arguments;
-    int pulses = 0, pid = 0;
+    int pulses = 0;
     int freq_pgen = args->freq_pgen[0] + rand() % (args->freq_pgen[1] - args->freq_pgen[0] + 1);
 
     while (1) {
@@ -52,17 +70,8 @@ void *timer1(void *arguments) {
         pulses++;
         if (pulses == freq_pgen) {
             pulses = 0;
-            while (process_map[pid] != 0 && pid < MAX_PROCESS) {
-                pid++;
-            }
-            if (pid < MAX_PROCESS) {
-                freq_pgen = args->freq_pgen[0] + rand() % (args->freq_pgen[1] - args->freq_pgen[0] + 1);
-                process_map[pid] = 1;
-                generate_process(&args->machine, pid);
-            } else {
-                printf("Maximum number of process\n");
-                fflush(stdout);
-            }
+            freq_pgen = args->freq_pgen[0] + rand() % (args->freq_pgen[1] - args->freq_pgen[0] + 1);
+            generate_process(&args->machine, args->freq_schl);
         }
         pthread_cond_signal(&cond1);
         pthread_cond_wait(&cond2, &mutex);

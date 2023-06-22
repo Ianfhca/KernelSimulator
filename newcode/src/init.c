@@ -10,7 +10,9 @@ void init_processmap() {
 pcb_t init_pcb() {
     pcb_t null_process;
     null_process.pid = -1;
-    null_process.state = NULL_S;
+    null_process.status = NULL_S;
+    null_process.load_quantum = -1;
+    null_process.quantum = null_process.load_quantum;
     null_process.live_time = -1;
     null_process.priority = -1;
     return null_process;
@@ -35,6 +37,7 @@ void init_machine(args_t* args) {
             core->id = core_id;
             core->num_threads = num_threads;
             inic_queue(&core->queue);
+            core->num_proc_queue = 0;
             printf(" -C%d -> ", core->id);
 
             core->threads = (thread_t*)malloc(core->num_threads * sizeof(thread_t)); /*Threads per core*/
@@ -92,9 +95,9 @@ int init_config(args_t* args) {
                 num_cpus = DEF_CPUS;
                 num_cores = DEF_CORES;
                 num_threads = DEF_THREADS;
-                args->freq_pgen[0] = 99;
-                args->freq_pgen[1] = 399;
-                args->freq_schl = 500;
+                args->freq_pgen[0] = 999;
+                args->freq_pgen[1] = 3999;
+                args->freq_schl = 5000;
                 printf("Default values has been set:\n");
                 printf("CPUs: %d, Cores: %d, Threads: %d\n", num_cpus, num_cores, num_threads);
                 printf("Process generator frequence: %d - %d \nScheduler/Dispatcher frequence %d\n", args->freq_pgen[0], args->freq_pgen[1], args->freq_schl);

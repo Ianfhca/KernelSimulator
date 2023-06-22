@@ -13,16 +13,29 @@ int num_threads;
 int process_map[MAX_PROCESS];
 
 /**
- * Funtion that symulates CPU's clock frecuency
- *
+ * This function symulates CPU clock frecuence.
+ * Parameters:
+ *  - *arguments: arg_t type struct
+ * Return:
  */
 void* cpu_clock(void* arguments) {
     args_t* args = arguments;
-    /* printf("Im the clock with tid %d\n", gettid()); */
+    int cpu_id, core_id, thread_id;
+
     while (1) {
         pthread_mutex_lock(&mutex);
+        for (cpu_id = 0; cpu_id < args->machine.num_cpus; cpu_id++) {
+            for (core_id = 0; core_id < args->machine.cpus[cpu_id].num_cores; core_id++) {
+                for (thread_id = 0; thread_id < args->machine.cpus[cpu_id].cores[core_id].num_threads; thread_id++) {
+                    if (args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.status == EXECUTING) {
+                        args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.live_time--;
+                        args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.quantum--;
+                    }
+                }
+            }
+        }
         while (args->done < NUM_TIMERS) {
-            pthread_cond_wait(&cond1, &mutex); /* Unlocks the mutex, waits for signal and it locks again */
+            pthread_cond_wait(&cond1, &mutex); /*Unlocks the mutex, waits for signal and it locks again*/
         }
         args->done = 0;
         pthread_cond_broadcast(&cond2);
@@ -40,7 +53,9 @@ int main(void) {
     args.done = 0;
     args.finished = 0;
 
-    if (init_config(&args) == 1) return(0);
+    srand(time(NULL));
+
+    if (init_config(&args) == 1) return (0);
 
     pthread_t th[NUM_THREADS];
     pthread_mutex_init(&mutex, NULL);

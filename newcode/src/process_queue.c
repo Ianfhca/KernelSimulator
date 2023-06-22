@@ -25,12 +25,7 @@ void enqueue(process_queue* queue, pcb_t pcb) {
 
 pcb_t dequeue(process_queue* queue) {
     if (is_empty(queue)) {
-        pcb_t null_process;
-        null_process.pid = -1;
-        null_process.state = NULL_S;
-        null_process.live_time = -1;
-        null_process.priority = -1;
-        return null_process;
+        return get_null_process();
     }
 
     node_t* node = queue->first;
@@ -61,4 +56,21 @@ int queue_size(process_queue* queue) {
     }
 
     return num;
+}
+
+pcb_t get_first_process(process_queue* queue) {
+    if (is_empty(queue)) {
+        return get_null_process();
+    }
+
+    return queue->first->pcb;
+}
+
+pcb_t get_null_process() {
+    pcb_t pcb;
+    pcb.pid = -1;
+    pcb.status = NULL_S;
+    pcb.live_time = -1;
+    pcb.priority = -1;
+    return pcb;
 }
