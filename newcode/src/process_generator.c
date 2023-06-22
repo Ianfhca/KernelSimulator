@@ -1,6 +1,6 @@
-#include "process_generator.h"
-
-#include "process_queue.h"
+#include "../includes/process_generator.h"
+#include "../includes/process_queue.h"
+#include <math.h>
 
 pcb_t create_pcb(int pid, int frequence) {
     pcb_t pcb;
@@ -14,7 +14,7 @@ pcb_t create_pcb(int pid, int frequence) {
 }
 
 void generate_process(machine_t *machine, int frequence) {
-    int i, j, size;
+    int i, j, size, phases;
     int pid = 0, min = INT_MAX, cpu_id = -1, core_id = -1;
     pcb_t pcb;
 
@@ -41,14 +41,22 @@ void generate_process(machine_t *machine, int frequence) {
             pcb = create_pcb(pid, frequence);
             enqueue(&machine->cpus[cpu_id].cores[core_id].queue, pcb);
             machine->cpus[cpu_id].cores[core_id].num_proc_queue++;
-            printf("Process Generated: %d -> (CPU %d - CORE %d) | TTL %d, Quantum %d\n", pid, cpu_id, core_id, pcb.live_time, pcb.load_quantum);
+            if (pcb.load_quantum > frequence) phases = (pcb.load_quantum / frequence) + 1;
+            else phases = (frequence / pcb.load_quantum);
+            printf("\033[1;37m");
+            printf("Process Generated %d: [CPU %d-> CORE %d] | TTL %d, Quantum %d (%d CPU Phases)\n", pid, cpu_id, core_id, pcb.live_time, pcb.load_quantum, phases);
+            printf("\033[0m");
             fflush(stdout);
         } else {
+            printf("\033[1;35m");
             printf("Warning: All core queues are full\n");
+            printf("\033[0m");
             fflush(stdout);
         }
     } else {
+        printf("\033[1;31m");
         printf("Maximum number of process\n");
+        printf("\033[0m");
         fflush(stdout);
     }
 }

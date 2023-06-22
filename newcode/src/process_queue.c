@@ -70,7 +70,7 @@ pcb_t get_null_process() {
     pcb_t pcb;
     pcb.pid = -1;
     pcb.status = NULL_S;
-    pcb.live_time = -1;
-    pcb.priority = -1;
+    pcb.live_time = 10;
+    pcb.priority = 10;
     return pcb;
 }

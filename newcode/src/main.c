@@ -12,6 +12,10 @@ int num_threads;
 
 int process_map[MAX_PROCESS];
 
+int exit_process;
+
+void* cpu_clock(void* arguments);
+
 /**
  * This function symulates CPU clock frecuence.
  * Parameters:
@@ -21,22 +25,37 @@ int process_map[MAX_PROCESS];
 void* cpu_clock(void* arguments) {
     args_t* args = arguments;
     int cpu_id, core_id, thread_id;
+    exit_process = 0;
 
     while (1) {
         pthread_mutex_lock(&mutex);
+
+        while (args->done < NUM_TIMERS) {
+            pthread_cond_wait(&cond1, &mutex); /*Unlocks the mutex, waits for signal and it locks again*/
+        }
         for (cpu_id = 0; cpu_id < args->machine.num_cpus; cpu_id++) {
             for (core_id = 0; core_id < args->machine.cpus[cpu_id].num_cores; core_id++) {
                 for (thread_id = 0; thread_id < args->machine.cpus[cpu_id].cores[core_id].num_threads; thread_id++) {
                     if (args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.status == EXECUTING) {
                         args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.live_time--;
                         args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.quantum--;
+                        if (args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.live_time <= 0) {
+                            args->machine.cpus[cpu_id].cores[core_id].threads[thread_id].pcb.status = FINISHED;
+                            if (exit_process == 0) exit_process = 1;
+                        }
                     }
                 }
             }
         }
-        while (args->done < NUM_TIMERS) {
-            pthread_cond_wait(&cond1, &mutex); /*Unlocks the mutex, waits for signal and it locks again*/
+
+        if (exit_process == 1) {
+            printf("\033[1;31m");
+            printf("*Scheduler interruption to get out finished processes*\n");
+            printf("\033[0m");
+            fflush(stdout);
+            scheduler(&args->machine);
         }
+
         args->done = 0;
         pthread_cond_broadcast(&cond2);
         pthread_mutex_unlock(&mutex);

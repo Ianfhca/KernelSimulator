@@ -62,14 +62,14 @@ int init_config(args_t* args) {
     num_cores = DEF_CORES;
     num_threads = DEF_THREADS;
 
-    printf("+-----------{ KERNEL SIMULATOR }-----------+\n");
-    printf("|                                          |\n");
-    printf("|     * C (Configure simulator)            |\n");
-    printf("|     * D (Launch default simulation)      |\n");
-    printf("|     * R (Run simulation)                 |\n");
-    printf("|     * S (Stop simulation)                |\n");
-    printf("|     * E (Exit)                           |\n");
-    printf("|                                          |\n");
+    printf("+-----------{\033[1;37m KERNEL SIMULATOR\033[0m }-----------+\n");
+    printf("| \033[1;37m  >                                 <   \033[0m |\n");
+    printf("| \033[1;37m    * C (Configure simulator)           \033[0m |\n");
+    printf("| \033[1;37m    * D (Launch default simulation)     \033[0m |\n");
+    printf("| \033[1;37m    * R (Run simulation)                \033[0m |\n");
+    printf("| \033[1;37m    * S (Stop simulation)               \033[0m |\n");
+    printf("| \033[1;37m    * E (Exit)                          \033[0m |\n");
+    printf("| \033[1;37m  >                                 <   \033[0m |\n");
     printf("+------------------->  <-------------------+\n");
 
     while (input != 'r' && input != 'R') {
@@ -100,9 +100,11 @@ int init_config(args_t* args) {
                 args->freq_pgen[0] = 999;
                 args->freq_pgen[1] = 3999;
                 args->freq_schl = 5000;
+                printf("\033[1;37m");
                 printf("Default values has been set:\n");
-                printf("CPUs: %d, Cores: %d, Threads: %d\n", num_cpus, num_cores, num_threads);
-                printf("Process generator frequence: %d - %d \nScheduler/Dispatcher frequence %d\n", args->freq_pgen[0], args->freq_pgen[1], args->freq_schl);
+                printf("CPUs: %d | Cores: %d | Threads: %d\n", num_cpus, num_cores, num_threads);
+                printf("Process generator frequence: MIN %d / MAX %d \nScheduler/Dispatcher frequence %d\n", args->freq_pgen[0], args->freq_pgen[1], args->freq_schl);
+                printf("\033[0m");
                 input = 'r';
                 break;
             case 'r':

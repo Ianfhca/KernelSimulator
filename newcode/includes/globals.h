@@ -24,8 +24,13 @@ extern pthread_mutex_t mutex;
 extern pthread_cond_t cond1;
 extern pthread_cond_t cond2;
 
+extern pthread_mutex_t s_mutex;
+extern pthread_cond_t s_cond;
+
 extern int num_cpus, num_cores, num_threads;
 
 extern int process_map[];
+
+extern int exit_process;
 
 #endif

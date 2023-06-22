@@ -1,5 +1,5 @@
 SRCDIR = src
-INCLUDEDIR = defines
+INCLUDEDIR = includes
 OBJDIR = obj
 
 CC = gcc
