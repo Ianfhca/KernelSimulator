@@ -1,6 +1,5 @@
-#include "../includes/process_generator.h"
-#include "../includes/process_queue.h"
-#include <math.h>
+#include "process_generator.h"
+#include "process_queue.h"
 
 pcb_t create_pcb(int pid, int frequence) {
     pcb_t pcb;

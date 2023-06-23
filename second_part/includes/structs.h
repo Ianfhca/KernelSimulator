@@ -1,6 +1,9 @@
 #ifndef ST
 #define ST
 
+#define MEMORY_SIZE 0xFFFFFF /*2^24 Memory size with a 24-bit address bus*/
+#define WORD 4
+
 /* -- MEMORY -- */
 typedef struct {
     int *code;
@@ -9,10 +12,16 @@ typedef struct {
 } mm_t;
 
 typedef struct {
-    int *code;
-    int *data;
-    int *pgb; 
-} physical_memory_t;
+    int virtual_address[1];
+    int physical_address[1];
+} tlb_t;
+
+typedef struct {
+    tlb_t tlb;
+    int *ptbr;
+} mmu_t;
+
+extern __uint32_t physical_memory[MEMORY_SIZE];
 /* -- MEMORY -- */
 
 /* -- QUEUE -- */
@@ -47,11 +56,14 @@ typedef struct {
 
 /* -- MACHINE -- */ 
 typedef struct {
-    /*pthread_t pth_id;*/
     int id;
     int core_id;
     int cpu_id;
     pcb_t pcb;
+    mmu_t mmu;
+    int *ptbr;
+    int ir;
+    int pc;
 } thread_t;
 
 typedef struct {

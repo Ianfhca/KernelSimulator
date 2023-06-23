@@ -100,6 +100,7 @@ void scheduler(machine_t *machine) {
     fflush(stdout);
 }
 
+/*Pthread scheduler*/
 void *scheduler1(void *arguments) {
     pthread_mutex_lock(&s_mutex);
 
@@ -132,7 +133,7 @@ void *scheduler1(void *arguments) {
     pthread_cond_signal(&s_cond);
     pthread_mutex_unlock(&s_mutex);
     pthread_exit(NULL);
-}
+}*/
 
 /**
  * This function counts clock pulses and call the scheduler when pulses reach established frecuence.

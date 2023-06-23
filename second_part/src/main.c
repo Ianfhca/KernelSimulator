@@ -1,5 +1,5 @@
 #include "init.h"
-#include "process_generator.h"
+#include "loader.h"
 #include "scheduler.h"
 
 pthread_mutex_t mutex;
