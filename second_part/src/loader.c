@@ -63,10 +63,10 @@ void generate_process(machine_t *machine, int frequence) {
     }
 }
 
-void loader(machine_t *machine, int frequence) {
+void loader(machine_t *machine) {
     char folder[] = "programs/";
     char name[] = "prog";
-    int num[3] = {0, 0, 0};
+    static int num[3] = {0, 0, 0};
     char ext[] = ".elf";
     char file_name[12];
     FILE *file;
@@ -74,60 +74,71 @@ void loader(machine_t *machine, int frequence) {
     __uint32_t text_addr, data_addr;
     int exit_inst = 0;
 
-    sprintf(file_name, "%s%d%d%d%s", name, num[0], num[1], num[2], ext);
+    if (num[1] <= 5) {
+        sprintf(file_name, "%s%d%d%d%s", name, num[0], num[1], num[2], ext);
 
-    if ((file = fopen(strcat(folder, file_name), "r")) == NULL) printf("File %s can not be opened\n", file_name);
+        if ((file = fopen(strcat(folder, file_name), "r")) == NULL) printf("File %s can not be opened\n", file_name);
 
-    char line[20];
-    __uint32_t value;
+        char line[20];
+        __uint32_t value;
 
-    while (fgets(line, sizeof(line), file) != NULL) {
-        line[strlen(line) - 1] = '\0';
-        if (exit_inst == 0) {
-            switch (line[0]) {
-                case '.':
-                    sscanf(&line[6], "%x", &value);
-                    if (line[1] == 't') {
-                        text_addr = value;
-                        printf(".text                      @ 0x%06X\n", text_addr);
-                        printf("---------------------------------------\n");
-                    } else {
-                        data_addr = value;
-                    }
-                    break;
-                case '0':
-                    sscanf(&line[2], "%x", &value);
-                    printf("0x%06X: [%s]  ld    r%c, 0x%06X\n", text_addr, line, line[1], value);
-                    text_addr += WORD;
-                    break;
-                case '1':
-                    sscanf(&line[2], "%x", &value);
-                    printf("0x%06X: [%s]  st    r%c, 0x%06X\n", text_addr, line, line[1], value);
-                    text_addr += WORD;
-                    break;
-                case '2':
-                    printf("0x%06X: [%s]  add   r%c, r%c, r%c\n", text_addr, line, line[1], line[2], line[3]);
-                    text_addr += WORD;
-                    break;
+        while (fgets(line, sizeof(line), file) != NULL) {
+            line[strlen(line) - 1] = '\0';
+            if (exit_inst == 0) {
+                switch (line[0]) {
+                    case '.':
+                        sscanf(&line[6], "%x", &value);
+                        if (line[1] == 't') {
+                            text_addr = value;
+                            printf("%s    .text                  @ 0x%06X\n", file_name, text_addr);
+                            printf("---------------------------------------\n");
+                        } else {
+                            data_addr = value;
+                        }
+                        break;
+                    case '0':
+                        sscanf(&line[2], "%x", &value);
+                        printf("0x%06X: [%s]  ld    r%c, 0x%06X\n", text_addr, line, line[1], value);
+                        text_addr += WORD;
+                        break;
+                    case '1':
+                        sscanf(&line[2], "%x", &value);
+                        printf("0x%06X: [%s]  st    r%c, 0x%06X\n", text_addr, line, line[1], value);
+                        text_addr += WORD;
+                        break;
+                    case '2':
+                        printf("0x%06X: [%s]  add   r%c, r%c, r%c\n", text_addr, line, line[1], line[2], line[3]);
+                        text_addr += WORD;
+                        break;
 
-                case 'F':
-                    exit_inst = 1;
-                    printf("0x%06X: [%s]  exit\n", text_addr, line);
-                    break;
-                default:
-                    printf("Error: This instruction is not used int this program.\n");
-                    break;
+                    case 'F':
+                        exit_inst = 1;
+                        printf("0x%06X: [%s]  exit\n", text_addr, line);
+                        break;
+                    default:
+                        printf("Error: This instruction is not used int this program.\n");
+                        break;
+                }
+            } else {
+                /*printf(".data                  @ 0x%06X\n", data_addr);
+                printf("-------------------------------\n");*/
+                sscanf(&line[0], "%x", &value);
+                printf("0x%06X: [%s]  %d\n", data_addr, line, value);
+                data_addr += WORD;
             }
-        } else {
-            /*printf(".data                  @ 0x%06X\n", data_addr);
-            printf("-------------------------------\n");*/
-            sscanf(&line, "%x", &value);
-            printf("0x%06X: [%s]  %d\n", data_addr, line, value);
-            data_addr += WORD;
         }
-    }
+        num[2]++;
+        if (num[2] > 9) {
+            num[2] = 0;
+            num[1]++;
+            if (num[1] > 9) {
+                num[1] = 0;
+                num[0]++;
+            }
+        }
 
-    fclose(file);
+        fclose(file);
+    }
 }
 
 /**
@@ -148,7 +159,7 @@ void *timer1(void *arguments) {
         if (pulses == freq_pgen) {
             pulses = 0;
             freq_pgen = args->freq_pgen[0] + rand() % (args->freq_pgen[1] - args->freq_pgen[0] + 1);
-            loader(&args->machine, args->freq_schl);
+            loader(&args->machine);
         }
         pthread_cond_signal(&cond1);
         pthread_cond_wait(&cond2, &mutex);

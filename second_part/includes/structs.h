@@ -2,7 +2,9 @@
 #define ST
 
 #define MEMORY_SIZE 0xFFFFFF /*2^24 Memory size with a 24-bit address bus*/
-#define WORD 4
+#define WORD 4 /*Word size*/
+
+#define KERNEL_MEMORY_SIZE 0x400000  /*2^22 kernel reserved memory address*/
 
 /* -- MEMORY -- */
 typedef struct {
@@ -21,7 +23,21 @@ typedef struct {
     int *ptbr;
 } mmu_t;
 
-extern __uint32_t physical_memory[MEMORY_SIZE];
+typedef struct {
+    __uint8_t memory[MEMORY_SIZE];
+} physical_memory_t;
+
+typedef struct {
+    __uint32_t base_address;
+    __uint32_t size;
+} mem_region_t;
+
+typedef struct {
+    mem_region_t kernel_region;
+    mem_region_t user_region;
+} mem_layout_t;
+
+/*extern __uint32_t physical_memory[MEMORY_SIZE];*/
 /* -- MEMORY -- */
 
 /* -- QUEUE -- */
