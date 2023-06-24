@@ -2,15 +2,21 @@
 #define ST
 
 #define MEMORY_SIZE 0xFFFFFF /*2^24 Memory size with a 24-bit address bus*/
-#define WORD 4 /*Word size*/
+#define WORD 4               /*Word size*/
 
-#define KERNEL_MEMORY_SIZE 0x400000  /*2^22 kernel reserved memory address*/
+#define KERNEL_MEMORY_SIZE 0x400000 /*2^22 kernel reserved memory address*/
 
 /* -- MEMORY -- */
 typedef struct {
+    int size;
+    int *virtual_address;
+    int *physical_address;
+} page_t;
+
+typedef struct {
     int *code;
     int *data;
-    int *pgb; 
+    int *pgb;
 } mm_t;
 
 typedef struct {
@@ -56,21 +62,21 @@ typedef struct {
     int quantum;
     int live_time;
     int priority;
-    mm_t mm; 
+    mm_t mm;
 } pcb_t;
 
 typedef struct node_t {
     pcb_t pcb;
-    struct node_t* next;
+    struct node_t *next;
 } node_t;
 
 typedef struct {
-    node_t* first;
-    node_t* last;
+    node_t *first;
+    node_t *last;
 } process_queue;
 /* -- QUEUE -- */
 
-/* -- MACHINE -- */ 
+/* -- MACHINE -- */
 typedef struct {
     int id;
     int core_id;
@@ -85,7 +91,7 @@ typedef struct {
 typedef struct {
     int id;
     int num_threads;
-    thread_t* threads;
+    thread_t *threads;
     process_queue queue;
     int num_proc_queue;
 } core_t;
@@ -93,11 +99,11 @@ typedef struct {
 typedef struct {
     int id;
     int num_cores;
-    core_t* cores;
+    core_t *cores;
 } cpu_t;
 
 typedef struct {
-    cpu_t* cpus;
+    cpu_t *cpus;
     int num_cpus;
 } machine_t;
 /* -- MACHINE -- */
